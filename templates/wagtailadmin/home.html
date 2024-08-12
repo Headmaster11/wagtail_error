@@ -1,0 +1,33 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load wagtailadmin_tags i18n %}
+{% block bodyclass %}homepage{% endblock %}
+<script src="{% versioned_static 'wagtailadmin/js/modal-workflow.js' %}"></script>
+
+{% block extra_css %}
+    {{ block.super }}
+    {{ media.css }}
+{% endblock %}
+
+{% block content %}
+    {% fragment as header_title %}
+        {% block branding_welcome %}{% blocktrans trimmed %}About CMS. {% endblocktrans %}{% endblock %}
+    {% endfragment %}
+
+
+    <div class="nice-padding w-mt-14">
+        {% include "wagtailadmin/shared/header.html" with title=header_title description=user.name avatar=user.avatar_url merged=1 %}
+
+        {% if panels %}
+            {% for panel in panels %}
+                {% component panel fallback_render_method=True %}
+            {% endfor %}
+        {% else %}
+            <p>{% trans "This is your dashboard on which helpful information about content you've created will be displayed." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {{ media.js }}
+{% endblock %}
